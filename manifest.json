@@ -1,6 +1,6 @@
 {
-    "domain": "solinteg_modbus_integration",
-    "name": "Solinteg Modbus Integration",
+    "domain": "solinteg_modbus_integration2",
+    "name": "Solinteg Modbus Integration 2",
     "documentation": "https://technovia.nl/solinteg",  
     "version": "1.0.0",
     "codeowners": ["@your_username"], 
