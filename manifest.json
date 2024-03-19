@@ -1,0 +1,8 @@
+{
+    "domain": "solinteg_modbus_integration",
+    "name": "Solinteg Modbus Integration",
+    "documentation": "https://technovia.nl/solinteg",  
+    "version": "1.0.0",
+    "codeowners": ["@your_username"], 
+    "requirements": ["pymodbus==3.0.0"]  
+}
