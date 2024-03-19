@@ -11,12 +11,14 @@ from homeassistant.components.modbus.const import (
 )
 
 from pymodbus.client.sync import ModbusTcpClient
+from .config_flow import MyModbusIntegrationFlow  
 
 from .const import DOMAIN
 from .sensor import PREDEFINED_SENSORS  # We'll define this in sensor.py
 
 _LOGGER = logging.getLogger(__name__)
 
+hass.config_entries.async_register_flow(config_flow=MyModbusIntegrationFlow()) 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up from a config entry."""
