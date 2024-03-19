@@ -1,4 +1,5 @@
 import voluptuous as vol
+from homeassistant.config_entries import ConfigFlow
 
 from homeassistant import config_entries
 from homeassistant.const import (
@@ -25,7 +26,7 @@ MODBUS_HUB_SCHEMA = vol.Schema(
     }
 )
 
-class MyModbusIntegrationFlow(config_entries.ConfigFlow, domain=DOMAIN):
+class MyModbusIntegrationFlow(ConfigFlow, domain=DOMAIN):
 
     async def async_step_user(self, user_input=None):
         """Handle the initial step of the configuration flow."""

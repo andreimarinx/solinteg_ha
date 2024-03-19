@@ -9,6 +9,7 @@ from homeassistant.components.modbus.const import (
        CONF_PORT,
        CONF_TYPE,
 )
+from homeassistant.config_entries import ConfigFlow
 
 from pymodbus.client.sync import ModbusTcpClient
 
