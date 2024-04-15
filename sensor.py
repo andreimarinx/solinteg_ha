@@ -40,6 +40,8 @@ async def async_setup_sensors(hass):
         if result.isError():
             _LOGGER.error("Error reading sensor %s: %s", f"{sensor_name} {result}, {modbus_ip}, {modbus_port}, {address}, {slave_id}")
             continue
+        else:
+            _LOGGER.info("No Error")
 
         # Calculate sensor value
         raw_value = result.registers[0]
