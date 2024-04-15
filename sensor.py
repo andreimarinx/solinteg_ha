@@ -1,5 +1,5 @@
 """Support for Modbus sensors."""
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient
 from homeassistant.helpers.entity import Entity
 DOMAIN = "solinteg_ha"
 
