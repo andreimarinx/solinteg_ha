@@ -20,7 +20,7 @@ async def async_setup_sensors(hass):
     sensors = [
         {
             "name": "Total PV Input Power",
-            "address": 11028,
+            "address": 33000,
             "unit_of_measurement": "kW",
             "scale": 0.001,
             "slave_id": 247
