@@ -18,7 +18,6 @@ async def async_setup_entry(hass, entry):
     hass.data[DOMAIN]["modbus_port"] = entry.data["modbus_port"]
 
     # Set up sensors
-    await async_setup_sensors(hass, config_entry, async_add_entities) 
-
+    await async_setup_sensors(hass)
 
     return True
