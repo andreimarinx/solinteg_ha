@@ -27,7 +27,7 @@ async def async_setup_sensors(hass):
             'count': 2
         },
         {
-            "name": "Battery SOC ",
+            "name": "Battery SOC",
             "address": 33000,
             "unit_of_measurement": "%",
             "scale": 0.01,
