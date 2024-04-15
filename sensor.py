@@ -36,7 +36,7 @@ async def async_setup_sensors(hass):
         slave_id = sensor["slave_id"]
 
         # Read sensor value from Modbus device
-        result = client.read_input_registers(address, count=2, unit=slave_id)
+        result = client.read_input_registers(address, count=2, slave=slave_id)
         if result.isError():
             _LOGGER.error("Error reading sensor %s: %s", sensor_name, result)
             continue
