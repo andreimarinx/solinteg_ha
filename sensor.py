@@ -38,6 +38,15 @@ async def async_setup_sensors(hass):
         # Read sensor value from Modbus device
         result = client.read_input_registers(address, 2, slave=slave_id)
         if result.isError():
+            hass.states.async_set(
+            f"sensor.{sensor_name.lower().replace(' ', '_')}",
+            10,
+            {
+                "friendly_name": sensor_name,
+                "unit_of_measurement": unit_of_measurement,
+                "icon": "mdi:solar-power",
+            },
+        )
             _LOGGER.error("Error reading sensor %s: %s", sensor_name, result)
             continue
 
