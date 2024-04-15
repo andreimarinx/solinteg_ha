@@ -1,0 +1,11 @@
+{
+    "domain": "solinteg_ha",
+    "name": "Solinteg Integration",
+    "documentation": "https://example.com/modbus_integration/docs",
+    "dependencies": [],
+    "codeowners": ["@yourgithubusername"],
+    "requirements": [],
+    "version": "1.0.0",
+    "issue_tracker": "https://github.com/yourgithubusername/modbus_integration/issues",
+    "config_flow": true
+}
