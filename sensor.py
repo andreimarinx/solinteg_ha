@@ -1,33 +1,55 @@
+"""Support for Modbus sensors."""
+from pymodbus.client.sync import ModbusTcpClient
 from homeassistant.helpers.entity import Entity
-from homeassistant.const import CONF_HOST, CONF_PORT
 
-from pymodbus.client.sync import ModbusTcpClient  # Or ModbusSerialClient for RTU
+async def async_setup_sensors(hass):
+    """Set up Modbus sensors."""
+    modbus_ip = hass.data[DOMAIN]["modbus_ip"]
+    modbus_port = hass.data[DOMAIN]["modbus_port"]
 
-from .const import DOMAIN
+    # Connect to Modbus device
+    client = ModbusTcpClient(modbus_ip, port=modbus_port)
+    client.connect()
 
-async def async_setup_entry(hass, config_entry, async_add_devices):
-    """Set up the sensors from a config entry."""
-    host = config_entry.data[CONF_HOST]
-    port = config_entry.data[CONF_PORT]
+    # Define sensor entities
+    sensors = [
+        {
+            "name": "Total PV Input Power",
+            "address": 11028,
+            "unit_of_measurement": "kW",
+            "scale": 0.001,
+            "slave_id": 2
+        },
+        # Add more sensor definitions here if needed
+    ]
 
-    client = ModbusTcpClient(host, port) 
-    await hass.async_add_executor_job(client.connect)
+    for sensor in sensors:
+        sensor_name = sensor["name"]
+        address = sensor["address"]
+        unit_of_measurement = sensor["unit_of_measurement"]
+        scale = sensor["scale"]
+        slave_id = sensor["slave_id"]
 
-    devices = []
-    devices.append(TotalPVPInputPowerSensor(client))
-    async_add_devices(devices, True)
+        # Read sensor value from Modbus device
+        result = client.read_input_registers(address, count=2, unit=slave_id)
+        if result.isError():
+            _LOGGER.error("Error reading sensor %s: %s", sensor_name, result)
+            continue
 
+        # Calculate sensor value
+        raw_value = result.registers[0]
+        scaled_value = raw_value * scale
 
-class TotalPVPInputPowerSensor(Entity):
-    def __init__(self, client):
-        self._client = client
-        ...  # Other initialization
+        # Create Home Assistant sensor entity
+        hass.states.async_set(
+            f"sensor.{sensor_name.lower().replace(' ', '_')}",
+            scaled_value,
+            {
+                "friendly_name": sensor_name,
+                "unit_of_measurement": unit_of_measurement,
+                "icon": "mdi:solar-power",
+            },
+        )
 
-    def update(self):
-        """Read data from the Modbus device"""
-        result = self._client.read_holding_registers(11028, 2, unit=1)  
-        if not result.isError():
-            raw_value = result.registers[0] * 256 + result.registers[1]
-            self._state = raw_value * 0.001  # Apply your scaling 
-        else:
-            self._state = None 
+    # Disconnect from Modbus device
+    client.close()

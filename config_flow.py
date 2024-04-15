@@ -1,20 +1,34 @@
+"""Config flow for Modbus integration."""
 import voluptuous as vol
+from homeassistant import config_entries
 
-from homeassistant.config_entries import ConfigFlow
-from homeassistant.core import HomeAssistant
-from homeassistant.const import CONF_HOST, CONF_PORT
+DOMAIN = "modbus_integration"
 
-from .const import DOMAIN
+class ModbusConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    """Handle a config flow for Modbus."""
 
-class MyModbusFlowHandler(ConfigFlow, domain=DOMAIN):
     async def async_step_user(self, user_input=None):
+        """Handle the initial step."""
         if user_input is not None:
-            # Handle the data from the config form and set up the connection
-            # ...
-            return self.async_create_entry(title="My Modbus", data=user_input)
+            # Validate user input
+            errors = await self._validate_input(user_input)
+            if not errors:
+                return self.async_create_entry(title="Modbus Integration", data=user_input)
+            return self.async_show_form(
+                step_id="user", data_schema=vol.Schema({...}), errors=errors
+            )
 
-        schema = vol.Schema({
-            vol.Required(CONF_HOST): str,
-            vol.Optional(CONF_PORT, default=502): int
-        })
-        return self.async_show_form(step_id="user", data_schema=schema)
+        # Show form to user to input Modbus IP and port
+        return self.async_show_form(
+            step_id="user",
+            data_schema=vol.Schema({
+                vol.Required("modbus_ip"): str,
+                vol.Required("modbus_port", default=502): int
+            }),
+        )
+
+    async def _validate_input(self, user_input):
+        """Validate user input."""
+        # You can add your validation logic here
+        errors = {}
+        return errors

@@ -1,17 +1,20 @@
-import asyncio
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+"""The Modbus Integration."""
+import logging
 
-from .const import DOMAIN
+_LOGGER = logging.getLogger(__name__)
 
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-       hass.data.setdefault(DOMAIN, {})
-       # ...
-       await hass.async_add_executor_job(
-           async_setup_entry, hass, config_entry, async_add_entities
-       )
-       return True
-async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Unload a config entry."""
-    # ... (Add unload logic if needed)
+async def async_setup(hass, config):
+    """Set up the Modbus integration."""
+    hass.data[DOMAIN] = {}
+    return True
+
+async def async_setup_entry(hass, entry):
+    """Set up Modbus from a config entry."""
+    # Store Modbus IP and port in hass.data
+    hass.data[DOMAIN]["modbus_ip"] = entry.data["modbus_ip"]
+    hass.data[DOMAIN]["modbus_port"] = entry.data["modbus_port"]
+
+    # Set up sensors
+    await async_setup_sensors(hass)
+
     return True
