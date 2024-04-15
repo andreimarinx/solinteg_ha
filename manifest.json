@@ -1,10 +1,8 @@
 {
-    "domain": "solinteg_modbus_integration2",
-    "name": "Solinteg Modbus Integration 2",
-    "documentation": "https://technovia.nl/solinteg",  
-    "version": "1.0.0",
-    "codeowners": ["@your_username"], 
-    "requirements": ["pymodbus==3.0.0"]  ,
-    "config_flow": true 
-
+    "domain": "my_modbus_integration",
+    "name": "My Modbus Integration",
+    "documentation": "https://www.home-assistant.io/integrations/my_modbus_integration/",
+    "requirements": ["pymodbus==3.0.0"],  
+    "config_flow": true,
+    "codeowners": ["@andreimarinx"]
 }

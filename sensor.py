@@ -1,27 +1,33 @@
-from homeassistant.components.sensor import SensorEntity
-from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.helpers.entity import Entity
+from homeassistant.const import CONF_HOST, CONF_PORT
+
+from pymodbus.client.sync import ModbusTcpClient  # Or ModbusSerialClient for RTU
 
 from .const import DOMAIN
 
-PREDEFINED_SENSORS = [
-    {
-        "name": "my_relay",
-        "address": 100,
-        "device_class": "door",
-        "input_type": "coil",
-        "scan_interval": 15,
-        "slave": 1,
-        "slave_count": 0,
-        "unique_id": "my_relay"
-    }
-]
+async def async_setup_entry(hass, config_entry, async_add_devices):
+    """Set up the sensors from a config entry."""
+    host = config_entry.data[CONF_HOST]
+    port = config_entry.data[CONF_PORT]
 
-class MyModbusSensor(CoordinatorEntity, SensorEntity):
-    _attr_should_poll = False  # Assuming your setup uses a coordinator
+    client = ModbusTcpClient(host, port) 
+    await hass.async_add_executor_job(client.connect)
 
-    def __init__(self, coordinator, name, address, input_type, slave):
-        super().__init__(coordinator)
-        self._name = name
-        self._address = address
-        self._input_type = input_type
-        self._slave = slave
+    devices = []
+    devices.append(TotalPVPInputPowerSensor(client))
+    async_add_devices(devices, True)
+
+
+class TotalPVPInputPowerSensor(Entity):
+    def __init__(self, client):
+        self._client = client
+        ...  # Other initialization
+
+    def update(self):
+        """Read data from the Modbus device"""
+        result = self._client.read_holding_registers(11028, 2, unit=1)  
+        if not result.isError():
+            raw_value = result.registers[0] * 256 + result.registers[1]
+            self._state = raw_value * 0.001  # Apply your scaling 
+        else:
+            self._state = None 
