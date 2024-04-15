@@ -23,7 +23,16 @@ async def async_setup_sensors(hass):
             "address": 11028,
             "unit_of_measurement": "kW",
             "scale": 0.001,
-            "slave_id": 247
+            "slave_id": 247,
+            'count': 2
+        },
+        {
+            "name": "Battery SOC ",
+            "address": 33000,
+            "unit_of_measurement": "%",
+            "scale": 0.01,
+            "slave_id": 247,
+            'count': 1
         },
         # Add more sensor definitions here if needed
     ]
@@ -34,12 +43,12 @@ async def async_setup_sensors(hass):
         unit_of_measurement = sensor["unit_of_measurement"]
         scale = sensor["scale"]
         slave_id = sensor["slave_id"]
+        count = sensor['count']
 
         # Read sensor value from Modbus device
-        result = client.read_holding_registers(11028, 2, slave=247)
+        result = client.read_holding_registers(address, count, slave=247)
         if result.isError():
             _LOGGER.error("Error reading sensor %s: %s", sensor_name, result)
-            _LOGGER.error("Error reading sensor %s: %s", modbus_ip, modbus_port)
             continue
 
         # Calculate sensor value
