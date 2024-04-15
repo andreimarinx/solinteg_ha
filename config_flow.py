@@ -2,7 +2,7 @@
 import voluptuous as vol
 from homeassistant import config_entries
 
-DOMAIN = "modbus_integration"
+DOMAIN = "solinteg_ha"
 
 class ModbusConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for Modbus."""
