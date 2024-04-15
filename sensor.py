@@ -39,7 +39,7 @@ async def async_setup_sensors(hass):
         result = client.read_input_registers(11028, 2, slave=247)
         if result.isError():
             _LOGGER.error("Error reading sensor %s: %s", sensor_name, result)
-            _LOGGER.error("Error reading sensor %s: %s", modbus_ip, result)
+            _LOGGER.error("Error reading sensor %s: %s", modbus_ip, modbus_port)
             continue
 
         # Calculate sensor value
