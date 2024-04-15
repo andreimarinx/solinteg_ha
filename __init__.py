@@ -1,6 +1,8 @@
 """The Modbus Integration."""
 import logging
 
+from sensor import async_setup_sensors
+
 _LOGGER = logging.getLogger(__name__)
 DOMAIN = "solinteg_ha"
 

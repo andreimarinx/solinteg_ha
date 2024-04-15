@@ -1,6 +1,7 @@
 """Support for Modbus sensors."""
 from pymodbus.client.sync import ModbusTcpClient
 from homeassistant.helpers.entity import Entity
+DOMAIN = "solinteg_ha"
 
 async def async_setup_sensors(hass):
     """Set up Modbus sensors."""
