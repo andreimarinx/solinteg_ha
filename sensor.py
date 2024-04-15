@@ -2,6 +2,10 @@
 from pymodbus.client import ModbusTcpClient
 from homeassistant.helpers.entity import Entity
 DOMAIN = "solinteg_ha"
+import logging
+
+
+_LOGGER = logging.getLogger(__name__)
 
 async def async_setup_sensors(hass):
     """Set up Modbus sensors."""
