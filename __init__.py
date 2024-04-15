@@ -11,13 +11,14 @@ async def async_setup(hass, config):
     hass.data[DOMAIN] = {}
     return True
 
-async def async_setup_entry(hass, entry):
+async def async_setup_entry(hass, entry, config_entry, async_add_entities):
     """Set up Modbus from a config entry."""
     # Store Modbus IP and port in hass.data
     hass.data[DOMAIN]["modbus_ip"] = entry.data["modbus_ip"]
     hass.data[DOMAIN]["modbus_port"] = entry.data["modbus_port"]
 
     # Set up sensors
-    await async_setup_sensors(hass)
+    await async_setup_sensors(hass, config_entry, async_add_entities) 
+
 
     return True
