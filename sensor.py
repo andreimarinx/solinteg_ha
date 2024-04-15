@@ -20,7 +20,7 @@ async def async_setup_sensors(hass):
     sensors = [
         {
             "name": "Total PV Input Power",
-            "address": 33000,
+            "address": 11028,
             "unit_of_measurement": "kW",
             "scale": 0.001,
             "slave_id": 247
@@ -36,7 +36,7 @@ async def async_setup_sensors(hass):
         slave_id = sensor["slave_id"]
 
         # Read sensor value from Modbus device
-        result = client.read_holding_registers(33000, 2, slave=247)
+        result = client.read_holding_registers(11028, 2, slave=247)
         if result.isError():
             _LOGGER.error("Error reading sensor %s: %s", sensor_name, result)
             _LOGGER.error("Error reading sensor %s: %s", modbus_ip, modbus_port)
