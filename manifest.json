@@ -1,8 +1,0 @@
-{
-    "domain": "my_modbus_integration",
-    "name": "My Modbus Integration",
-    "documentation": "https://www.home-assistant.io/integrations/my_modbus_integration/",
-    "requirements": ["pymodbus==3.0.0"],  
-    "config_flow": true,
-    "codeowners": ["@andreimarinx"]
-}
